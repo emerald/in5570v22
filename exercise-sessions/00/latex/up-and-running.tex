@@ -1,0 +1,157 @@
+\begin{frame}[fragile]
+
+\frametitle{Get An Emerald Node Up and Running}
+
+\begin{itemize}
+
+\footnotesize
+
+\item First, install Docker
+
+\item Once you have Docker installed, you can run our image as follows:
+
+\vspace{-0.05in}
+
+\begin{lstlisting}[language=bash]
+$ docker run -it --rm portoleks/in5570v21:latest
+\end{lstlisting}
+
+\item \textbf{NB!} Windows users see also next slide
+
+\item This lands you in a BASH shell, having the following binaries:
+
+\begin{itemize}
+
+\footnotesize
+
+\item \texttt{ec} (Emerald compiler)
+
+\item \texttt{emx} (Emerald virual machine / execution engine)
+
+\end{itemize}
+
+\item \textbf{NB!} The file-system is ephemeral; once you exit (type
+\texttt{exit}, or press Ctrl+D), the files you create here are lost!
+
+\item To run with \textbf{\underline{your working
+directory}}\footnote{Make sure you are in a project directory before
+you run this command} mounted, do this instead:
+
+\vspace{-0.05in}
+
+\begin{lstlisting}[language=bash]
+$ docker run -it --rm \
+    --volume "$(pwd):/home/docker/src/" \
+    --workdir "/home/docker/src/" \
+    portoleks/in5570v21:latest
+\end{lstlisting}
+
+\item For more on what this does see the README at
+
+\url{https://hub.docker.com/r/portoleks/in5570v21/}
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+\frametitle{Windows Users}
+
+\begin{itemize}
+
+\item If you are using Windows 10 Home Edition (or similar):
+
+\begin{itemize}
+
+\item Download and install Docker Toolbox:
+
+\url{https://docs.docker.com/toolbox/overview/}
+
+\item Make sure your folder with Emerald code (from where you also
+execute the \texttt{docker run} command), is under
+\texttt{C:\textbackslash{}Users}
+
+\item Make sure that folder is not marked read-only (placing it under
+your user directory should work)
+
+\end{itemize}
+
+\item If you are using Git BASH, you should be OK with the above command.
+
+\item If you are using PowerShell, use this command instead:
+
+\vspace{-0.05in}
+
+\begin{lstlisting}[language=bash]
+$ docker run -it --rm `
+    --volume "${PWD}:/home/docker/src/" `
+    --workdir "/home/docker/src/" `
+    portoleks/in5570v21:latest
+\end{lstlisting}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Print \texttt{Hello, World!}}
+
+Here is a program with some observable behaviour:
+
+\inputsrc{00-hello-world.m}
+
+To compile and run:
+
+\begin{lstlisting}[language=bash]
+$ ec hello.m    # Assuming you call the above file hello.m
+$ emx hello.x   # Assuming ec went well, you'll get a hello.x
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+\frametitle{Print \texttt{Hello, World!} Everywhere (1/2)}
+
+This code asks every node to print \texttt{Hello, World!}\\ in each
+their own standard output stream:
+
+\inputsrc{01-hello-all.m}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Print \texttt{Hello, World!} Everywhere (2/2)}
+
+To compile and run (on 3 nodes):
+
+\begin{lstlisting}[language=bash]
+$ ip addr                   # Determine the IP address of master
+...
+... eth0...
+  inet 172.17.0.2...        # Here it is, under eth0, inet
+$ emx -R                    # Start an Emerald master node
+Emerald listening on port 17099...
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash]
+# Start another node
+$ emx -R172.17.0.2:17099    # The port is (often) optional
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash]
+# Start another node, and run helloall.x
+$ ec helloall.m             
+$ emx -R172.17.0.2:17099 helloall.x
+\end{lstlisting}
+
+\textbf{NB!} Don't use a space between \texttt{-R} and the node
+identifier\\ (e.g., write \texttt{-Rlocalhost},
+\textbf{\underline{not}} \texttt{-R localhost}).
+
+\end{frame}

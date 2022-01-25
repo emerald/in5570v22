@@ -1,0 +1,7 @@
+csl13.openspace.nl
+pl2.uni-rostock.de
+planetlab2.xeno.cl.cam.ac.uk
+planetlabeu-1.tssg.org
+planetlabeu-2.tssg.org
+ple43.planet-lab.eu
+vicky.planetlab.ntua.gr

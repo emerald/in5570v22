@@ -1,9 +1,9 @@
 # PlanetLab Status Report
 
-Updated: 2021-02-10
+Updated: 2022-02-08
 
-  * [Planet Lab Europe nodes in the diku_IN5570 slice](nodes-ple.txt): 44
-  * [Good nodes in the diku_IN5570 slice](nodes-good.txt): 8
+  * [Planet Lab Europe nodes in the diku_IN5570 slice](nodes-ple.txt): 9
+  * [Good nodes in the diku_IN5570 slice](nodes-good.txt): 3
 
 What classifies as a good node:
 

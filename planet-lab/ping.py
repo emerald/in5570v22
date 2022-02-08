@@ -10,7 +10,7 @@ import sys
 LOGIN = 'diku_IN5570'
 KEYPATH = os.path.join(os.path.expanduser("~"), '.ssh', 'id_rsa')
 PROMPT=r"[#$]"
-TIMEOUT=5
+TIMEOUT=10
 
 class CouldNotLogin(Exception):
     def __init__(self, message):
